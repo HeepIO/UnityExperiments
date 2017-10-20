@@ -84,7 +84,6 @@ public class LoginToFirebase : MonoBehaviour {
 
 					foreach (var item in databaseItems)
 					{
-						Debug.Log(item.Key); 
 						ReadPlaceTruth(item.Key);
 					}
 				}
@@ -104,16 +103,21 @@ public class LoginToFirebase : MonoBehaviour {
 				}
 				else if (task.IsCompleted) {
 					DataSnapshot snapshot = task.Result;
-					GlobalData.store.numPlaces += 1;
 
 					var databaseItems = snapshot.Value as Dictionary<string, object>;
+					Place newPlace = new Place();
 
 					foreach (var item in databaseItems)
 					{
-						
-						Debug.Log(item.Key + ": " + item.Value); 
-
+						if (item.Key.Equals("name")) {
+							newPlace.name = item.Value as string;
+						} else if (item.Key.Equals("placeID")) {
+							newPlace.placeID = item.Value as string;
+						}
 					}
+
+					Debug.Log(newPlace.name + ": " + newPlace.placeID); 
+					GlobalData.store.places.Add(newPlace);
 				}
 			});
 	}

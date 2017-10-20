@@ -5,8 +5,7 @@ using UnityEngine;
 public class GlobalData : MonoBehaviour {
 
 	public static GlobalData store;
-
-	public int numPlaces = 0;
+	public List<Place> places = new List<Place>();
 
 	void Awake () {
 		
@@ -20,8 +19,22 @@ public class GlobalData : MonoBehaviour {
 	}
 
 	void OnGUI() {
-		GUI.Label (new Rect (10, 10, 100, 30), "NumPlaces: " + numPlaces);
+		GUI.Label (new Rect (10, 10, 100, 30), "NumPlaces: " + places.Count);
 	}
+}
+
+public class Place {
+
+	public string name;
+	public string placeID;
+
+	public Place(string name, string placeID){}
+
+	public Place() {
+		name = "empty";
+		placeID = "empty";
+	}
+
 }
 
 
