@@ -15,6 +15,9 @@ public class LoginToFirebase : MonoBehaviour {
 	Firebase.Auth.FirebaseAuth auth;
 	Firebase.Auth.FirebaseUser user;
 
+	private string testUser = "waxjVMMDemMCfPrKKnXKMlhRofo1";
+	public bool editorTesting = false;
+
 	void Start() {
 		// Set this before calling into the realtime database.
 		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://heep-3cddb.firebaseio.com/");
@@ -39,35 +42,11 @@ public class LoginToFirebase : MonoBehaviour {
 	void ReadDatabase() {
 
 		DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
-		Debug.Log ("Reading...hello");
 
-		FirebaseDatabase.DefaultInstance
-			.GetReference ("hello")
-			.GetValueAsync().ContinueWith(task => {
+		if (editorTesting) {
+			ReadTestUserPlaces ();
+		}
 
-				GlobalData.store.health += 200;
-
-				if (task.IsFaulted) {
-					// Handle the error...
-					Debug.Log("error");
-				}
-				else if (task.IsCompleted) {
-					DataSnapshot snapshot = task.Result;
-
-					var databaseItems = snapshot.Value as Dictionary<string, object>;
-
-					foreach (var item in databaseItems)
-					{
-						Debug.Log(item.Key); 
-
-						var values = item.Value as Dictionary<string, object>;
-						foreach (var v in values)
-						{
-							Debug.Log(v.Key + ": " + v.Value); 
-						}
-					}
-				}
-			});
 	}
 
 	void AuthStateChanged(object sender, System.EventArgs eventArgs) {
@@ -84,6 +63,39 @@ public class LoginToFirebase : MonoBehaviour {
 				Debug.Log("Signed in " + user.UserId);
 			}
 		}
+	}
+
+	void ReadTestUserPlaces() {
+
+		FirebaseDatabase.DefaultInstance
+			.GetReference ("users")
+			.Child(testUser)
+			.Child ("places")
+			.GetValueAsync().ContinueWith(task => {
+				
+				if (task.IsFaulted) {
+					// Handle the error...
+					Debug.Log("error");
+				}
+				else if (task.IsCompleted) {
+					DataSnapshot snapshot = task.Result;
+
+					var databaseItems = snapshot.Value as Dictionary<string, object>;
+
+					foreach (var item in databaseItems)
+					{
+						Debug.Log(item.Key); 
+						GlobalData.store.numPlaces += 1;
+
+						var values = item.Value as Dictionary<string, object>;
+						foreach (var v in values)
+						{
+							Debug.Log(v.Key + ": " + v.Value); 
+						}
+					}
+				}
+			});
+
 	}
 
 }

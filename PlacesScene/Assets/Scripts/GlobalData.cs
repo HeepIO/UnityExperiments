@@ -6,8 +6,7 @@ public class GlobalData : MonoBehaviour {
 
 	public static GlobalData store;
 
-	public int health = 100;
-	public int experience = 10;
+	public int numPlaces = 0;
 
 
 	void Awake () {
@@ -22,7 +21,6 @@ public class GlobalData : MonoBehaviour {
 	}
 
 	void OnGUI() {
-		GUI.Label (new Rect (10, 10, 100, 30), "Health: " + health);
-		GUI.Label (new Rect (10, 40, 150, 30), "Experience: " + experience);
+		GUI.Label (new Rect (10, 10, 100, 30), "NumPlaces: " + numPlaces);
 	}
 }
