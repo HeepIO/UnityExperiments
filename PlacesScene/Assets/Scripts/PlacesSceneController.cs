@@ -21,7 +21,7 @@ public class PlacesSceneController : MonoBehaviour {
 	}
 
 	void InstantiatePlaces() {
-		float position = -5;
+		float position = -8;
 
 		foreach (Place place in places) {
 			
@@ -32,7 +32,7 @@ public class PlacesSceneController : MonoBehaviour {
 				newPlaceObject.transform.position = new Vector3 (position, 0, 0);
 			}
 
-			position += 2.5f;
+			position += 4f;
 		}
 	}
 

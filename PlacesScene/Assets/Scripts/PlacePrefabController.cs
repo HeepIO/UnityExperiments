@@ -14,5 +14,4 @@ public class PlacePrefabController : MonoBehaviour {
 		namefield.text = place.name;
 
 	}
-
 }
