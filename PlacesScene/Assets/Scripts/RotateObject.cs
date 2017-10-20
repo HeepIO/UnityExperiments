@@ -3,9 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RotateObject : MonoBehaviour {
-	public float speed = 3;
+
+	public float speed = 30;
+	public bool rotate = false;
+
 	void Update () {
-		
-		transform.Rotate (0, Time.deltaTime * speed, 0);
+
+		if (rotate) {
+			transform.Rotate (0, Time.deltaTime * speed, 0);
+		}
 	}
+
+	public void setRotateState(bool shouldRotate) {
+		rotate = shouldRotate;
+	}
+
 }
