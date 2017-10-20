@@ -17,9 +17,9 @@ public class LoginToFirebase : MonoBehaviour {
 
 	void Start() {
 		// Set this before calling into the realtime database.
-		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://unity-firebase-hello-world.firebaseio.com/");
-		FirebaseApp.DefaultInstance.SetEditorP12FileName(Application.dataPath + "/FirebaseAssetPackage/Editor Default Resources/Unity Firebase Hello World-1e8c83ab0a0c.p12");
-		FirebaseApp.DefaultInstance.SetEditorServiceAccountEmail("unity-editor@unity-firebase-hello-world.iam.gserviceaccount.com");
+		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://heep-3cddb.firebaseio.com/");
+		FirebaseApp.DefaultInstance.SetEditorP12FileName(Application.dataPath + "/FirebaseAssetPackage/Editor Default Resources/Heep-ede80bde542a.p12");
+		FirebaseApp.DefaultInstance.SetEditorServiceAccountEmail("unity-user@heep-3cddb.iam.gserviceaccount.com");
 		FirebaseApp.DefaultInstance.SetEditorP12Password("notasecret");
 		Debug.Log ("Using P12 for Firebase Access in Editor");
 
@@ -39,22 +39,26 @@ public class LoginToFirebase : MonoBehaviour {
 	void ReadDatabase() {
 
 		DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
+		Debug.Log ("Reading...hello");
 
 		FirebaseDatabase.DefaultInstance
-			.GetReference("/")
+			.GetReference ("hello")
 			.GetValueAsync().ContinueWith(task => {
+
+
 				if (task.IsFaulted) {
 					// Handle the error...
+					Debug.Log("error");
 				}
 				else if (task.IsCompleted) {
 					DataSnapshot snapshot = task.Result;
-					// Do something with snapshot...
 
 					var databaseItems = snapshot.Value as Dictionary<string, object>;
 
 					foreach (var item in databaseItems)
 					{
 						Debug.Log(item.Key); 
+
 						var values = item.Value as Dictionary<string, object>;
 						foreach (var v in values)
 						{
