@@ -8,7 +8,6 @@ public class GlobalData : MonoBehaviour {
 
 	public int numPlaces = 0;
 
-
 	void Awake () {
 		
 		if (store == null) {
@@ -24,3 +23,5 @@ public class GlobalData : MonoBehaviour {
 		GUI.Label (new Rect (10, 10, 100, 30), "NumPlaces: " + numPlaces);
 	}
 }
+
+

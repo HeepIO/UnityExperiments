@@ -85,17 +85,37 @@ public class LoginToFirebase : MonoBehaviour {
 					foreach (var item in databaseItems)
 					{
 						Debug.Log(item.Key); 
-						GlobalData.store.numPlaces += 1;
-
-						var values = item.Value as Dictionary<string, object>;
-						foreach (var v in values)
-						{
-							Debug.Log(v.Key + ": " + v.Value); 
-						}
+						ReadPlaceTruth(item.Key);
 					}
 				}
 			});
+	}
 
+	void ReadPlaceTruth(string placeID) {
+		
+		FirebaseDatabase.DefaultInstance
+			.GetReference ("places")
+			.Child(placeID)
+			.GetValueAsync().ContinueWith(task => {
+
+				if (task.IsFaulted) {
+					// Handle the error...
+					Debug.Log("error");
+				}
+				else if (task.IsCompleted) {
+					DataSnapshot snapshot = task.Result;
+					GlobalData.store.numPlaces += 1;
+
+					var databaseItems = snapshot.Value as Dictionary<string, object>;
+
+					foreach (var item in databaseItems)
+					{
+						
+						Debug.Log(item.Key + ": " + item.Value); 
+
+					}
+				}
+			});
 	}
 
 }
