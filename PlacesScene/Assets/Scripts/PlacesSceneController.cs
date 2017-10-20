@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlacesSceneController : MonoBehaviour {
 
+	public GameObject placePrefab;
 	private List<Place> places = new List<Place>();
 
 	void Update() {
@@ -15,12 +16,24 @@ public class PlacesSceneController : MonoBehaviour {
 		if (GlobalData.store.places.Count > places.Count) {
 			places = GlobalData.store.places;
 			Debug.Log ("I want to generate " + places.Count + " places");
-
+			InstantiatePlaces ();
 		}
 	}
 
-	void DestroyAllExistingPlaces() {
+	void InstantiatePlaces() {
+		float position = -5;
 
+		foreach (Place place in places) {
+			
+			if (GameObject.Find(place.placeID) == null)
+			{
+				var newPlaceObject = Instantiate (placePrefab);
+				newPlaceObject.GetComponent<PlacePrefabController> ().loadData(place);
+				newPlaceObject.transform.position = new Vector3 (position, 0, 0);
+			}
+
+			position += 2.5f;
+		}
 	}
 
 }
