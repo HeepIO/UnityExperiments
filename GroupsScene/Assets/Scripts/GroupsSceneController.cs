@@ -16,7 +16,7 @@ public class GroupsSceneController : MonoBehaviour {
 
 	void CheckForNew() {
 		if (GlobalData.store.groups.Count > groups.Count) {
-			groups = GlobalData.store.groups;
+			groups = new List<Group>(GlobalData.store.groups);
 			Debug.Log ("I want to generate " + groups.Count + " groups");
 			InstantiateGroups ();
 		}

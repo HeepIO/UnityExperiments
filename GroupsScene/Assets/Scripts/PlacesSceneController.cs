@@ -14,7 +14,7 @@ public class PlacesSceneController : MonoBehaviour {
 
 	void CheckForNewPlaces() {
 		if (GlobalData.store.places.Count > places.Count) {
-			places = GlobalData.store.places;
+			places = new List<Place>(GlobalData.store.places);
 			Debug.Log ("I want to generate " + places.Count + " places");
 			InstantiatePlaces ();
 		}
