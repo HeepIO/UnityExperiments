@@ -5,6 +5,8 @@ using UnityEngine;
 public class GroupsSceneController : MonoBehaviour {
 
 	public GameObject groupPrefab;
+	public string placeID;
+
 	private List<Group> groups = new List<Group>();
 
 	void Update() {
@@ -21,7 +23,7 @@ public class GroupsSceneController : MonoBehaviour {
 	}
 
 	void InstantiateGroups() {
-		float position = -8;
+		float position = -10;
 
 		foreach (Group group in groups) {
 			
