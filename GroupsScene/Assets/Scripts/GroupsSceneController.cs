@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,15 +19,19 @@ public class GroupsSceneController : MonoBehaviour {
 	void CheckForNew() {
 		if (GlobalData.store.groups.Count > groups.Count) {
 			groups = new List<Group>(GlobalData.store.groups);
-			Debug.Log ("I want to generate " + groups.Count + " groups");
+
+			groupsInThisPlace = groups.Where (thisGroup => thisGroup.placeID == GlobalData.store.activePlace).ToList();
+
+			Debug.Log (groupsInThisPlace);
+			Debug.Log ("I want to generate " + groupsInThisPlace.Count + " groups");
 			InstantiateGroups ();
 		}
 	}
 
 	void InstantiateGroups() {
-		float position = -10;
+		float position = 0f - (4 * (groupsInThisPlace.Count - 1))/2;
 
-		foreach (Group group in groups) {
+		foreach (Group group in groupsInThisPlace) {
 			
 			if (GameObject.Find(group.groupID) == null)
 			{
