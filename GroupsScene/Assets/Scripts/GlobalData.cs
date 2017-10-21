@@ -5,8 +5,10 @@ using UnityEngine;
 public class GlobalData : MonoBehaviour {
 
 	public static GlobalData store;
+
 	public List<Place> places = new List<Place>();
 	public List<Group> groups = new List<Group>();
+	public string activePlace = "";
 
 	void Awake () {
 		

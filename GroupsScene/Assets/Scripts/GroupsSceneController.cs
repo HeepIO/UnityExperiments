@@ -8,6 +8,7 @@ public class GroupsSceneController : MonoBehaviour {
 	public string placeID;
 
 	private List<Group> groups = new List<Group>();
+	private List<Group> groupsInThisPlace = new List<Group> ();
 
 	void Update() {
 

@@ -12,6 +12,19 @@ using Firebase.Unity.Editor;
 
 public class FirebaseInterface : MonoBehaviour {
 
+	public static FirebaseInterface store;
+
+	void Awake () {
+
+		if (store == null) {
+			DontDestroyOnLoad (gameObject);
+			store = this;
+		} else if (store != this) {
+			Destroy (gameObject);
+		}
+
+	}
+
 	Firebase.Auth.FirebaseAuth auth;
 	Firebase.Auth.FirebaseUser user;
 
