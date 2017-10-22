@@ -58,6 +58,8 @@ public class FirebaseInterface : MonoBehaviour {
 		if (editorTesting) {
 			ReadTestUserData ("places", ReadPlaceTruth);
 			ReadTestUserData ("groups", ReadGroupTruth);
+			ReadTestUserData ("devices", ReadDeviceTruth);
+			ReadTestUserData ("devices", ReadDeviceControlsTruth);
 		}
 
 	}
@@ -166,4 +168,103 @@ public class FirebaseInterface : MonoBehaviour {
 				}
 			});
 	}
+
+	void ReadDeviceTruth(string deviceID) {
+		
+
+		FirebaseDatabase.DefaultInstance
+			.GetReference ("devices")
+			.Child(deviceID)
+			.Child ("identity")
+			.GetValueAsync().ContinueWith(task => {
+
+				if (task.IsFaulted) {
+					// Handle the error...
+					Debug.Log("error");
+				}
+				else if (task.IsCompleted) {
+					DataSnapshot snapshot = task.Result;
+
+					readDeviceIdentity(snapshot.Value as Dictionary<string, object>);
+
+				}
+			});
+	}
+
+	void ReadDeviceControlsTruth(string deviceID) {
+		
+		FirebaseDatabase.DefaultInstance
+			.GetReference ("devices")
+			.Child (deviceID)
+			.Child ("controls")
+			.GetValueAsync().ContinueWith(task => {
+
+				if (task.IsFaulted) {
+					// Handle the error...
+					Debug.Log("error");
+				}
+				else if (task.IsCompleted) {
+					DataSnapshot snapshot = task.Result;
+
+					foreach (var child in snapshot.Children)
+					{
+						var control = child.Value as Dictionary<string, object>;
+						readDeviceControl(control);
+
+					}
+
+				}
+			});
+	}
+
+	void readDeviceIdentity(Dictionary<string, object> identity) {
+		
+		Device newDevice = new Device ();
+
+		foreach (var item in identity) {
+			
+			if (item.Key.Equals ("name")) {
+				newDevice.name = item.Value as string;
+			} else if (item.Key.Equals ("ipAddress")) {
+				newDevice.ipAddress = item.Value as string;
+			} else if (item.Key.Equals ("deviceID")) {
+				newDevice.deviceID = item.Value as string;
+			}
+		}
+			
+		GlobalData.store.devices.Add(newDevice);
+	}
+
+	void readDeviceControl(Dictionary<string, object> control) {
+
+		DeviceControl newControl = new DeviceControl ();
+
+		foreach (var item in control) {
+			
+			if (item.Key.Equals ("controlDirection")) {
+				newControl.controlDirection = item.Value as string;
+			} else if (item.Key.Equals ("controlID")) {
+				newControl.controlID = item.Value as string;
+			} else if (item.Key.Equals ("controlName")) {
+				newControl.controlName = item.Value as string;
+			} else if (item.Key.Equals ("controlType")) {
+				newControl.controlType = item.Value as string;
+			} else if (item.Key.Equals ("deviceID")) {
+				newControl.deviceID = item.Value as string;
+			} else if (item.Key.Equals ("groupID")) {
+				newControl.groupID = item.Value as string;
+			} else if (item.Key.Equals ("valueCurrent")) {
+				newControl.valueCurrent = item.Value as string;
+			} else if (item.Key.Equals ("uniqueID")) {
+				newControl.valueCurrent = item.Value as string;
+			}
+
+		}
+
+		GlobalData.store.controls.Add (newControl);
+	}
+
+
 }
+
+

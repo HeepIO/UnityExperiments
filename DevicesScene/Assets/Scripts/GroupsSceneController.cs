@@ -6,7 +6,6 @@ using UnityEngine;
 public class GroupsSceneController : MonoBehaviour {
 
 	public GameObject groupPrefab;
-	public string placeID;
 
 	private List<Group> groups = new List<Group>();
 	private List<Group> groupsInThisPlace = new List<Group> ();
